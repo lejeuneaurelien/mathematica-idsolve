@@ -1,0 +1,9 @@
+MPREP = $(MATHLINK)/bin/mprep
+
+L_1   = $(MATHLINK)/lib/ml32i1m.lib
+L_2   = $(MATHLINK)/lib/ml32i2m.lib
+L_3   = $(MATHLINK)/lib/ml32i3m.lib
+MLLIBS  = $(GPP_LIBS) $(L_1) $(L_2) $(L_3) -lgdi32
+
+CXXFLAGS += -I$(MATHLINK)/include
+LDFLAGS  += -L$(MATHLINK)/lib

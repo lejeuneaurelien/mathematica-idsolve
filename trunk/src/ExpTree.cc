@@ -1,5 +1,8 @@
 #include "ExpTree.h"
 
+#include <iostream>
+#include <sstream>
+
 /******************************************************************************/
 /**	Expression Node Functions												  */
 /******************************************************************************/
@@ -54,11 +57,27 @@ void ExpTree::addRight(ExpTree* e) { this->right  = e; }
 void ExpTree::print(int i) {
 	string s = "";
 	for(int j = 0; j < i; j++) s += " ";
-	std::cout << s << "— " << this->node << std::endl;
+	std::cout << s << "-- " << this->node << std::endl;
 	if(this->left) this->left->print(i+1);
 	if(this->right) this->right->print(i+1);
 }
 
 void ExpTree::print() {
 	this->print(0);
+}
+
+string ExpTree::toString(int i) {
+	string s = "";
+	std::ostringstream str(std::ostringstream::out);
+    str << this->node << endl;
+	for(int j = 0; j < i; j++) s.append(" ");
+	s.append("-- ");
+	s.append(str.str());
+	if(this->left) s.append(this->left->toString(i+1));
+	if(this->right) s.append(this->right->toString(i+1));
+	return s;
+}
+
+string ExpTree::toString() {
+	return this->toString(0);
 }

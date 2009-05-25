@@ -1,0 +1,204 @@
+#!/bin/sh
+#########################################################################
+#
+# Configure Mathematica IDSolve
+#
+#########################################################################
+
+echo
+echo "Configuring Mathematica IDSolve"
+echo "==============================="
+echo
+
+CONFIGPATH=./config
+CONFIGFILE=config
+CWD=`pwd`
+CNT=0
+
+rm -f $CONFIGPATH/$CONFIGFILE
+
+###########################################
+# VNODE-LP Parameters
+###########################################
+
+# Where is VNODE-LP
+echo "Where is installed VNODE-LP ?"
+read VNODE_DIR
+VNODE_DIR=`echo $VNODE_DIR | sed 's|^$HOME|'"$HOME"'|'`
+VNODE_DIR=`echo $VNODE_DIR | sed 's|^~|'"$HOME"'|'`
+VNODE_DIR=`echo $MMA_DIR | sed 's| |\\ |g'`
+
+# Select the configuration file to use
+echo 
+echo "Available configurations"
+cd $VNODE_DIR/config
+for CONFIG in *
+do
+	if [ -f $CONFIG ]
+	then
+	CNT=`expr $CNT + 1`
+	echo "    $CNT.	$CONFIG";
+	fi
+done
+echo
+echo -n "Enter the number of the configuration you want to use: "
+read CONFIG_NUMBER
+
+CONFIG_FILE=
+CNT=0
+for CONFIG in *
+do
+	if [ -f $CONFIG ]
+	then
+		CNT=`expr $CNT + 1`
+		if [ x$CNT = x$CONFIG_NUMBER ]
+		then
+			CONFIG_FILE=$CONFIG
+		fi
+	fi
+done
+cd $CWD
+
+echo
+if [ x$CONFIG_FILE = x ]
+then
+    echo Error: Invalid or unknown configuration.
+    exit 1
+fi
+
+###########################################
+# Mathematica Parameters
+###########################################
+
+# Where is Mathematica
+echo "Where is installed Mathematica ?"
+read MMA_DIR
+MMA_DIR=`echo $MMA_DIR | sed 's|^$HOME|'"$HOME"'|'`
+MMA_DIR=`echo $MMA_DIR | sed 's|^~|'"$HOME"'|'`
+MMA_DIR=`echo $MMA_DIR | sed 's| |\\ |g'`
+
+# Select the OS
+echo 
+echo "Available systems"
+cd "$MMA_DIR/SystemFiles/Links/MathLink/DeveloperKit"
+CNT=0
+for CONFIG in *
+do
+	if [ -d $CONFIG ]
+	then
+	CNT=`expr $CNT + 1`
+	echo "    $CNT.	$CONFIG";
+	fi
+done
+echo
+echo -n "Enter the number of the system you are using: "
+read OS_NUMBER
+
+MMA_TEMP=
+CNT=0
+for OS in *
+do
+	if [ -d $OS ]
+	then
+		CNT=`expr $CNT + 1`
+		if [ x$CNT = x$OS_NUMBER ]
+		then
+			MMA_TEMP=$OS
+		fi
+	fi
+done
+
+echo
+if [ x$MMA_TEMP = x ]
+then
+    echo Error: Invalid or unknown configuration.
+    exit 1
+fi
+cd "$MMA_TEMP/CompilerAdditions"
+
+# Select the configuration to use
+CNT=0
+echo 
+echo "Available configurations"
+for CONFIG in *
+do
+	if [ -d $CONFIG ]
+	then
+	CNT=`expr $CNT + 1`
+	echo "    $CNT.	$CONFIG";
+	fi
+done
+echo
+echo -n "Enter the number of the configuration you want to use: "
+read CONFIG_NUMBER
+
+MMA_TEMP=
+CNT=0
+for CONFIG in *
+do
+	if [ -d $CONFIG ]
+	then
+		CNT=`expr $CNT + 1`
+		if [ x$CNT = x$CONFIG_NUMBER ]
+		then
+			MMA_TEMP=$CONFIG
+		fi
+	fi
+done
+
+echo
+if [ x$MMA_TEMP = x ]
+then
+    echo Error: Invalid or unknown configuration.
+    exit 1
+fi
+cd "$MMA_TEMP"
+MATHLINK=`pwd | sed 's| |\\\\ |g'`
+
+cd $CWD
+###########################################
+# Compiler Parameters
+###########################################
+
+# Select the C++ compiler to use
+echo 
+echo "Choose a C++ compiler"
+echo "    1.  GNU g++"
+echo "    2.  Watcom"
+echo -n "      "
+read COMPILER_NUMBER
+
+case "$COMPILER_NUMBER" in
+	1)
+		COMPILER=g++
+		;;
+	2)
+		COMPILER=wcl386
+		;;
+	*)
+		echo "Error: Invalid or unknown compiler."
+		exit 1
+esac
+
+DATE=`date`
+WHOAMI=`whoami`
+HOSTNAME=`hostname`
+
+###########################################
+# Write the configuration file
+###########################################
+cat > $CONFIGPATH/$CONFIGFILE <<EOF
+# This file is generated automatically, do not edit by hand!
+# Created by $WHOAMI on $HOSTNAME
+# $DATE
+
+INSTALL_DIR = $VNODE_DIR
+VNODE_FILE = \$(INSTALL_DIR)/config/$CONFIG_FILE
+MATHLINK = $MATHLINK
+DEBUG=0
+COMPILER = $COMPILER
+EOF
+
+echo
+echo Configuration finished.
+echo

@@ -42,6 +42,7 @@ class ExpTree {
 		ExpTree* left;
 		ExpTree* right;
 		void print(int);
+		std::string toString(int i);
 		
 	public :
 		ExpTree();
@@ -50,6 +51,7 @@ class ExpTree {
 		void addLeft(ExpTree*);
 		void addRight(ExpTree*);
 		void print();
+		std::string toString();
 };
 
 
