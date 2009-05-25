@@ -26,8 +26,9 @@ echo "Where is installed VNODE-LP ?"
 read VNODE_DIR
 VNODE_DIR=`echo $VNODE_DIR | sed 's|^$HOME|'"$HOME"'|'`
 VNODE_DIR=`echo $VNODE_DIR | sed 's|^~|'"$HOME"'|'`
-VNODE_DIR=`echo $MMA_DIR | sed 's| |\\ |g'`
+VNODE_DIR=`echo $VNODE_DIR | sed 's| |\\ |g'`
 
+echo $VNODE_DIR
 # Select the configuration file to use
 echo 
 echo "Available configurations"
