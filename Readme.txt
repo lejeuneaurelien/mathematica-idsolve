@@ -34,6 +34,7 @@ Compiling the sources
     avaliable at :
           http://www.mingw.org/
     MinGW is a port of GNU applications and MSYS is a shell emulator.
+    In this case use "/c/directory/sub dir" instead of "C:\directory\sub dir"
   Run "make mrproper" in a shell
   Run "./configure" in a shell
     Indicate the location of VNODE-LP and Mathematica
