@@ -19,6 +19,18 @@ std::ostream & operator << (std::ostream & flux, const UserFunction & uf){
 }
 
 template <> void UserFunction::f(int n, T<F<interval> > *yp, const T<F<interval> > *y, T<F<interval> > t) {
+	map<string, string>::iterator it;
+	int i;
+	for (it=this->derivatives.begin(), i = 0;
+			it != this->derivatives.end(); it++, i++) {
+		this->expressions->setVariable_((*it).first, &y[i]);
+	}
+	
+	for (it=this->derivatives.begin(), i = 0;
+			it != this->derivatives.end(); it++, i++) {
+		yp[i] = this->expressions->evaluate_((*it).second);
+	}
+	
 }
 
 template <> void UserFunction::f(int n, T<interval> *yp, const T<interval> *y, T<interval> t) {

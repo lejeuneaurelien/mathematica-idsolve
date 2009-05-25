@@ -1,0 +1,13 @@
+####### Do not change anything below ###########################################
+# Binary name
+BIN = IDSolve
+# Project ressources
+SRCDIR = ./src
+OBJDIR = ./obj
+HEADDIR = ./include
+SRCC = $(wildcard $(SRCDIR)/*.cc)
+SRC  = $(wildcard $(SRCDIR)/*.c)
+MLTM = $(wildcard $(SRCDIR)/*.tm)
+OBJ  = $(MLTM:$(SRCDIR)/%.tm=$(OBJDIR)/%tm.o)	\
+	   $(SRCC:$(SRCDIR)/%.cc=$(OBJDIR)/%.o)		\
+	   $(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
