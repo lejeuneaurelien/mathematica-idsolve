@@ -178,7 +178,8 @@ int IDSolver::solve() {
 	int tab[this->n];
 	for(it=this->functionName.begin(); it != this->functionName.end(); it++, j++) {
 		x[j] = IDSolveToInterval(this->initialValues[(*it).second - 1]);
-		tab[j] = (*it).second - 1;
+		tab[(*it).second - 1] = j;
+		std::cout << (*it).first << " : " << (*it).second << std::endl;
 	}
 	
 	try {
@@ -196,8 +197,10 @@ int IDSolver::solve() {
 			Solver->integrate(t,x,tend);
 			if(!Solver->successful()) error = 2;
 			else {
-				for(int i = 0; i < this->n; i++)
+				for(int i = 0; i < this->n; i++) {
+					std::cout << tab[i] << std::endl;
 					this->solution.push_back(intervalToIDSolve(x[tab[i]]));
+				}
 				error = 0;
 			}
 		}
