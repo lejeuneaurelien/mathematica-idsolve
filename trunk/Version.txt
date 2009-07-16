@@ -1,0 +1,4 @@
+Version 1.3
+	Bugs corrected:
+		Result are shown in the correct order.
+		Variables named 'x' or 'e' can be instanciated before using IDSolve[].

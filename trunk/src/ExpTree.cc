@@ -38,11 +38,6 @@ std::ostream & operator << (std::ostream& str, const ExpNode& en){
 /**	Expression Tree Functions												  */
 /******************************************************************************/
 
-ExpTree::ExpTree() {
-	this->left  = NULL;
-	this->right = NULL;
-}
-
 ExpTree::ExpTree(const ExpNode& node) {
 	this->node  = node;
 	this->left  = NULL;

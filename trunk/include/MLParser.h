@@ -32,10 +32,26 @@ enum IDS_ERROR_CODE {
 /** Sending data to MathLink */
 /******************************************************************************/
 
+/**
+ * \fn void sendError(MLINK, IDS_ERROR_CODE)
+ * \bug This function does not work due to ML limitation
+ */
 void sendError(MLINK, IDS_ERROR_CODE);
 
+/**
+ * \fn void MLPutInterval(MLINK, const IDSolveInterval&)
+ * \brief write an Interval into a MathLink link
+ * \param the ML link
+ * \param an IDSolveInterval interval
+ */
 void MLPutInterval(MLINK, const IDSolveInterval&);
 
+/**
+ * \fn void MLPutBoxe(MLINK, std::vector<IDSolveInterval>&)
+ * \brief write a box (interval vector) into a MathLink link
+ * \param the ML link
+ * \param an IDSolveInterval interval vector
+ */
 void MLPutBoxe(MLINK, std::vector<IDSolveInterval>&);
 
 /******************************************************************************/
